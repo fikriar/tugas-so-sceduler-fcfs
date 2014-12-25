@@ -111,9 +111,9 @@ input.ubah{
         <?php if($i==1){?>
         	<td><input type="text" name="arrival<?php echo $i;?>" id="arrival<?php echo $i;?>" value="0" disabled="disabled"/></td>
         <?php }else{?>
-        	<td><input type="text" name="arrival<?php echo $i;?>" id="arrival<?php echo $i;?>" maxlength="3" /></td>
+        	<td><input type="text" name="arrival<?php echo $i;?>" id="arrival<?php echo $i;?>" maxlength="4" /></td>
         <?php }?>
-        <td><input type="text" name="burst<?php echo $i;?>" id="burst<?php echo $i;?>" maxlength="3" /></td></tr>
+        <td><input type="text" name="burst<?php echo $i;?>" id="burst<?php echo $i;?>" maxlength="4" /></td></tr>
         <?php $i++; }?>
         <tr>
         <td colspan="3" align="right">
