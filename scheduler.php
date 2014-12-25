@@ -104,6 +104,7 @@ input.ubah{
         <tr><th>Proses</th><th>Arrival Time (ms)</th><th>Burst Time (ms)</th></tr>
         <?php 
 		$n=isset($_POST['nbaris'])?trim($_POST['nbaris']):4;
+		if($n==""){ $n=4; }
 		$i=1;
 		while($i<=$n){?>
         <tr><td>P<?php echo $i;?></td>
@@ -146,8 +147,7 @@ input.ubah{
         </table>
     </div>
     </div>
-    <div id="diagram-scd">
-    </div>
+    <div id="diagram-scd" style="background:none;"></div>
 </div>
 </div>
 </body>
@@ -198,8 +198,8 @@ function tset(){
 	//Algoritma First Come First Serve
 	for(i=0; i<n; i++){
 		document.getElementById('p'+(i+1)).value ='P'+urutan[i]; 
-		document.getElementById('arvT'+(i+1)).value =arvT[i];
-		document.getElementById('bstT'+(i+1)).value =bstT[i];  
+		document.getElementById('arvT'+(i+1)).value =arvT[i]+' ms';
+		document.getElementById('bstT'+(i+1)).value =bstT[i]+' ms';  
 	}
 	
 	var jmlWt =arvT[0];
@@ -220,7 +220,7 @@ function tset(){
 		if(i==0){
 			document.getElementById('diagram-scd').innerHTML+='<div id="gantt2" style="width:'+lebar+'%;"><a>P'+urutan[i]+'</a><div id="agkjumlah" style="float:left;">'+arvT[0]+'</div><div id="agkjumlah">'+juml[i]+'</div></div>';
 		}else{
-			document.getElementById('diagram-scd').innerHTML+='<div id="gantt2" style="width:'+lebar+'%;"><a>P'+urutan[i]+'</a><div id="agkjumlah">'+juml[i]+'</div></div>';
+			document.getElementById('diagram-scd').innerHTML+='<div id="gantt2" style="width:'+lebar+'%;margin-left:-1px;"><a>P'+urutan[i]+'</a><div id="agkjumlah">'+juml[i]+'</div></div>';
 		}
 	}
 }
