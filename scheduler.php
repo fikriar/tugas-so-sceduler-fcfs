@@ -124,8 +124,8 @@ input.ubah{
     </div>
     <div id="tabel-scd">
     <div id="table-proses">
-     <table id="tableP" style="width:240px;">
-        <tr><th>Proses</th><th>Arrival Time</th><th>Burst Time</th></tr>
+     <table id="tableP" style="width:450px;">
+        <tr><th>Proses</th><th>Arrival Time</th><th>Burst Time</th><th>Waiting Time</th><th>Turnaround</th><th>Finish Time</th></tr>
         <?php 
 		$i=1;
 		while ($i<=$n){?>
@@ -133,14 +133,17 @@ input.ubah{
         <td><center><input type="text" class="prog" id="p<?php echo $i;?>" disabled="disabled" /></center></td>
         <td><center><input type="text" class="prog" id="arvT<?php echo $i;?>" disabled="disabled" /></center></td>
         <td><center><input type="text" class="prog" id="bstT<?php echo $i;?>"disabled="disabled" /></center></td>
+        <td><center><input type="text" class="prog" id="waiT<?php echo $i;?>"disabled="disabled" /></center></td>
+        <td><center><input type="text" class="prog" id="trnT<?php echo $i;?>"disabled="disabled" /></center></td>
+        <td><center><input type="text" class="prog" id="fniT<?php echo $i;?>"disabled="disabled" /></center></td>
         </tr>
         <?php $i++; }?>
      </table>
      <table>
         <tr><td colspan="3"><b>First Come First Served</b></td></tr>
-        <tr><td colspan="2">Turn Around Time</td>
+        <tr><td colspan="2">Turn Around Time Rata<sup>2</sup></td>
         <td><input type="text" name="TurnArTime1" id="TurnArTime1" disabled="disabled"/></td></tr>
-        <tr><td colspan="2">Waiting Time</td>
+        <tr><td colspan="2">Waiting Time Rata<sup>2</sup></td>
         <td><input type="text" name="WaitTime1" id="WaitTime1" disabled="disabled"/></td></tr>
         <tr><td colspan="2">Response Time</td>
         <td><input type="text" name="RespTime1" id="RespTime1" disabled="disabled"/></td></tr>
@@ -182,26 +185,33 @@ function tset(){
 			}
 		}
 	}
+	var trnTime = new Array(n);
+	var wtTime = new Array(n);
 	var batas = 0;
 	for(i=0; i<n; i++){
 		batas+=bstT[i];
 		juml[i]=batas;
+		trnTime[i] = juml[i]-arvT[i];
+		wtTime[i] = juml[i]-bstT[i]-arvT[i];
 		if(arvT[i+1]>batas){
 		alert('Arival Harus lebih kecil dari jumlah Burst Time sebelumnya');
 		}
 	}
 	var jmlburst=0;
 	for(i=0; i<n; i++){
-		jmlburst = jmlburst + juml[i];
+		//jmlburst = jmlburst + juml[i];
+		jmlburst = jmlburst + juml[i]-arvT[i];
 	}
 	
-	//Algoritma First Come First Serve
+	//Algoritma First Come First Served
 	for(i=0; i<n; i++){
 		document.getElementById('p'+(i+1)).value ='P'+urutan[i]; 
 		document.getElementById('arvT'+(i+1)).value =arvT[i]+' ms';
-		document.getElementById('bstT'+(i+1)).value =bstT[i]+' ms';  
+		document.getElementById('bstT'+(i+1)).value =bstT[i]+' ms';
+		document.getElementById('waiT'+(i+1)).value =wtTime[i]+' ms';
+		document.getElementById('trnT'+(i+1)).value =trnTime[i]+' ms';
+		document.getElementById('fniT'+(i+1)).value =juml[i]+' ms';
 	}
-	
 	var jmlWt =arvT[0];
 	for(i=0; i<n-1; i++){
 		jmlWt+=juml[i]-arvT[i+1];
@@ -209,9 +219,9 @@ function tset(){
 	var TAfcf =jmlburst/n;
 	var WTfcf =jmlWt/n;
 	var RTfcf = WTfcf;
-	document.getElementById('TurnArTime1').value = Math.round(TAfcf*1000)/1000; 
-	document.getElementById('WaitTime1').value = Math.round(WTfcf*1000)/1000;
-	document.getElementById('RespTime1').value = Math.round(RTfcf*1000)/1000;
+	document.getElementById('TurnArTime1').value = Math.round(TAfcf*1000)/1000 +' ms'; 
+	document.getElementById('WaitTime1').value = Math.round(WTfcf*1000)/1000 +' ms';
+	document.getElementById('RespTime1').value = Math.round(RTfcf*1000)/1000 +' ms';
 	
 	var lebar =0;
 	document.getElementById('diagram-scd').innerHTML='<p><h3>Diagram Gantt - First Come First Served</h3></p>';
